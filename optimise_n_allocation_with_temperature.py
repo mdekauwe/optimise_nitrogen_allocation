@@ -109,13 +109,18 @@ def make_plot2(leaf_temp, Npools_store):
     ax = fig.add_subplot(111)
     plt.rcParams['font.family'] = "sans-serif"
     plt.rcParams['font.sans-serif'] = "Helvetica"
-    ax.plot(leaf_temp, Npools_store_amb[:,0], ls=" ", marker="o", c="blue", label="N$_c$")
-    ax.plot(leaf_temp, Npools_store_amb[:,1], ls=" ", marker="o", c="red", label="N$_e$")
-    ax.plot(leaf_temp, Npools_store_amb[:,2], ls=" ", marker="o", c="green", label="N$_r$")
-    ax.plot(leaf_temp, Npools_store_amb[:,3], ls=" ", marker="o", c="orange", label="N$_s$")
+    ax.plot(leaf_temp, Npools_store_amb[:,0], ls=" ", marker="o", c="royalblue", 
+            label="N$_c$")
+    ax.plot(leaf_temp, Npools_store_amb[:,1], ls=" ", marker="o", c="red", 
+            label="N$_e$")
+    ax.plot(leaf_temp, Npools_store_amb[:,2], ls=" ", marker="o", c="green", 
+            label="N$_r$")
+    ax.plot(leaf_temp, Npools_store_amb[:,3], ls=" ", marker="o", c="yellow", 
+            label="N$_s$")
     ax.set_ylabel("Allocation proportion")
     ax.set_xlabel("Tleaf")
     ax.legend(numpoints=1, loc="best")
+    ax.set_xlim(0, 35)
     #fig.savefig(os.path.join("plots", "opt_JV_ratio.eps"), bbox_inches='tight')
     
     plt.show()
