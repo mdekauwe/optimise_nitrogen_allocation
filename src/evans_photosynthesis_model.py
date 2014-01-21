@@ -211,29 +211,23 @@ class PhotosynthesisModel(object):
                            b=-(self.alpha * absorptance * par + Jmax), 
                            c=self.alpha * absorptance * par * Jmax)
        
-        # Photosynthesis when Rubisco is limiting
+        # Net Photosynthesis when Rubisco is limiting
         a = 1. / self.g_m
         b = (Rd - Vcmax) / self.g_m - Ci - Km
         c = Vcmax * (Ci - gamma_star) - Rd * (Ci + Km)
         Acn = self.quadratic(a=a, b=b, c=c)
-        #print "Vcmax", Vcmax, Rd, Ci, gamma_star, Km, a, b, c, Acn
         
-        # Photosynthesis when electron transport is limiting
+        
+        # Net Photosynthesis when electron transport is limiting
         VJ = (J / 4.0)
         a = 1.0 / self.g_m
         b = (Rd - VJ) / self.g_m - Ci - (2.0 * gamma_star)
         c = VJ * (Ci - gamma_star) - Rd * (Ci + 2.0 * gamma_star)
         Ajn = self.quadratic(a=a, b=b, c=c)
-        #print "Jmax", VJ, Rd, Ci, gamma_star, a, b, c, Ajn
-         
+        
         # By default we assume a everything under Ci<150 is Ac limited
         An = np.where(Ci < 150.0, Acn, np.minimum(Acn, Ajn))
         
-        # net assimilation rates.
-        #An = A - Rd
-        #Acn = Ac - Rd
-        #Ajn = Aj - Rd
-        # print A, Rd, An, Jmax25, Vcmax25
         return An, Acn, Ajn, Jmax25, Vcmax25
     
     def quadratic(self, a=None, b=None, c=None):

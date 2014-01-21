@@ -21,7 +21,7 @@ from evans_photosynthesis_model import PhotosynthesisModel
 
 def main(Ca=None):
     
-    par = 800.0
+    par = 1500.0
     Ci = Ca * 0.7
     Rd = None
     Tleaf = 25.
