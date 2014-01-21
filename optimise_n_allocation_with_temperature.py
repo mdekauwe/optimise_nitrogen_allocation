@@ -121,7 +121,7 @@ def make_plot2(leaf_temp, Npools_store):
     ax.set_xlabel("Tleaf")
     ax.legend(numpoints=1, loc="best")
     ax.set_xlim(0, 35)
-    #fig.savefig(os.path.join("plots", "opt_JV_ratio.eps"), bbox_inches='tight')
+    fig.savefig(os.path.join("plots", "alloc_frac_vs_tleaf.eps"), bbox_inches='tight')
     
     plt.show()
 
