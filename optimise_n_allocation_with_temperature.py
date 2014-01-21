@@ -55,7 +55,8 @@ def main(Ca=None):
     Jm_store = np.zeros(0)
     Vm_store = np.zeros(0)
     leaf_temp = np.linspace(5, 30, 10)
-    for Tleaf in leaf_temp:
+    Npools_store = np.zeros((len(leaf_temp),4))
+    for i, Tleaf in enumerate(leaf_temp):
         
         initial_guess = np.array([N_c, N_e])
         # ===== OPTIMIZE parameter set ===== # 
@@ -67,6 +68,8 @@ def main(Ca=None):
     
         # retrieve all fitted N pools
         (N_c, N_e, N_r, N_s) = P.N_pool_store
+        Npools_store[i] = N_c, N_e, N_r, N_s
+        
         fitted_x0 = np.array([N_c, N_e])
         
         (An, Anc, Anj, 
@@ -83,7 +86,7 @@ def main(Ca=None):
         Vm_store = np.append(Vm_store, Vcmax25)
     jv_ratio = Jm_store / Vm_store
 
-    return jv_ratio, leaf_temp
+    return jv_ratio, leaf_temp, Npools_store
     
 def make_plot(leaf_temp, jv_ratio_amb, jv_ratio_ele):    
     # Make plot
@@ -99,11 +102,31 @@ def make_plot(leaf_temp, jv_ratio_amb, jv_ratio_ele):
     fig.savefig(os.path.join("plots", "opt_JV_ratio.eps"), bbox_inches='tight')
     
     plt.show()
+
+def make_plot2(leaf_temp, Npools_store):    
+    # Make plot
+    fig = plt.figure()
+    ax = fig.add_subplot(111)
+    plt.rcParams['font.family'] = "sans-serif"
+    plt.rcParams['font.sans-serif'] = "Helvetica"
+    ax.plot(leaf_temp, Npools_store_amb[:,0], ls=" ", marker="o", c="blue", label="N$_c$")
+    ax.plot(leaf_temp, Npools_store_amb[:,1], ls=" ", marker="o", c="red", label="N$_e$")
+    ax.plot(leaf_temp, Npools_store_amb[:,2], ls=" ", marker="o", c="green", label="N$_r$")
+    ax.plot(leaf_temp, Npools_store_amb[:,3], ls=" ", marker="o", c="orange", label="N$_s$")
+    ax.set_ylabel("Allocation proportion")
+    ax.set_xlabel("Tleaf")
+    ax.legend(numpoints=1, loc="best")
+    #fig.savefig(os.path.join("plots", "opt_JV_ratio.eps"), bbox_inches='tight')
+    
+    plt.show()
+
     
 if __name__ == "__main__":
     
     
-    (jv_ratio_amb, leaf_temp) = main(Ca=390.0)
-    (jv_ratio_ele, leaf_temp) = main(Ca=600.0)
+    (jv_ratio_amb, leaf_temp, Npools_store_amb) = main(Ca=390.0)
+    (jv_ratio_ele, leaf_temp, Npools_store_ele) = main(Ca=600.0)
     make_plot(leaf_temp, jv_ratio_amb, jv_ratio_ele)
+    
+    make_plot2(leaf_temp, Npools_store_amb)
     
