@@ -92,6 +92,7 @@ def make_plot(leaf_temp, jv_ratio_amb, jv_ratio_ele):
     # Make plot
     fig = plt.figure()
     ax = fig.add_subplot(111)
+    simpleaxis(ax)
     plt.rcParams['font.family'] = "sans-serif"
     plt.rcParams['font.sans-serif'] = "Helvetica"
     ax.plot(leaf_temp, jv_ratio_amb, lw=2, ls="-", c="blue", label="Amb")
@@ -107,6 +108,7 @@ def make_plot2(leaf_temp, Npools_store):
     # Make plot
     fig = plt.figure()
     ax = fig.add_subplot(111)
+    simpleaxis(ax)
     plt.rcParams['font.family'] = "sans-serif"
     plt.rcParams['font.sans-serif'] = "Helvetica"
     ax.plot(leaf_temp, Npools_store_amb[:,0], ls=" ", marker="o", c="royalblue", 
@@ -125,7 +127,13 @@ def make_plot2(leaf_temp, Npools_store):
     
     plt.show()
 
-    
+def simpleaxis(ax):
+    """ Remove the top line and right line on the plot face """
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    ax.get_xaxis().tick_bottom()
+    ax.get_yaxis().tick_left()
+        
 if __name__ == "__main__":
     
     
